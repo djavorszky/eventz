@@ -15,12 +15,14 @@ func Test_sub(t *testing.T) {
 		args args
 		want int
 	}{
-		{"Valid", args{"testEndpoint", make(chan Event)}, 1},
-		{"Valid2", args{"testEndpoint", make(chan Event)}, 2},
-		{"Valid3", args{"testEndpoint", make(chan Event)}, 3},
+		{"Valid", args{"testEndpoint", make(chan Event)}, 0},
+		{"Valid2", args{"testEndpoint", make(chan Event)}, 0},
+		{"Valid3", args{"testEndpoint", make(chan Event)}, 0},
 	}
 
-	curID = 1
+	ID = func() int {
+		return 0
+	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := sub(tt.args.endpoint, tt.args.eventQ); got != tt.want {
@@ -45,13 +47,15 @@ func TestSubscribe(t *testing.T) {
 		want    map[string]int
 		wantErr bool
 	}{
-		{"Valid", args{[]string{"someEndpoint"}}, map[string]int{"someEndpoint": 1}, false},
-		{"Valid multi args", args{[]string{"someEndpoint", "someEndpointTwo"}}, map[string]int{"someEndpoint": 2, "someEndpointTwo": 3}, false},
+		{"Valid", args{[]string{"someEndpoint"}}, map[string]int{"someEndpoint": 0}, false},
+		{"Valid multi args", args{[]string{"someEndpoint", "someEndpointTwo"}}, map[string]int{"someEndpoint": 0, "someEndpointTwo": 0}, false},
 
 		{"Missing endpoints", args{[]string{""}}, nil, true},
 	}
 
-	curID = 1
+	ID = func() int {
+		return 0
+	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := Subscribe(tt.args.endpoints...)

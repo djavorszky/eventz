@@ -4,7 +4,8 @@ import "testing"
 
 func TestID(t *testing.T) {
 	var id int
-	curID = 1
+
+	ID = incID
 	for i := 1; i < 100; i++ {
 		id = ID()
 

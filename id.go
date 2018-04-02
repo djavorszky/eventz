@@ -10,7 +10,9 @@ func init() {
 }
 
 // ID returns a new ID that is unique
-func ID() int {
+var ID = incID
+
+func incID() int {
 	return <-ids
 }
 
